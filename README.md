@@ -143,4 +143,8 @@ curl -X PUT localhost:9200/ind-3 -H 'Content-Type: application/json' -d'{ "setti
 Состояние кластера:  
 ![prt4](https://user-images.githubusercontent.com/97126500/187305686-c68974cb-c8f3-4d7a-b7e0-4d655509123c.png)
 
+В статусе yellow -- потому что в индексах указано количество реплик, а запущен только один экземпляр..  
+
+Удалил индексы:  
+![prt5](https://user-images.githubusercontent.com/97126500/187306165-c4b5055f-726e-4fef-9213-b03ec6c7dbf1.png)
 
