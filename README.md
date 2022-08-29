@@ -124,12 +124,12 @@ discovery.seed_hosts: ["127.0.0.1", "[::1]"]
 ```
 
 Запускал на слабом компе, пришлось ограничить потребление оперативной памяти: `sudo docker run -d -m 512m --name elastic_conf --net elastic -p 9200:9200 -p 9300:9300 -t es_conf`  
-Запушил образ в `https://hub.docker.com/repository/docker/pashicop/elastic_search/general`  
+Запушил образ в [DOCKERHUB](https://hub.docker.com/repository/docker/pashicop/elastic_search/general)
 Вывод `/`:  
 ![prt](https://user-images.githubusercontent.com/97126500/187303254-5c88ef06-a9e6-4846-bf53-fe927c9626be.png)
 
 ## Задача 2
-
+Сначала работал с curl, потом локально поднял Kibana, и в ней работал.  
 Создание индексов по таблице:
 ```
 curl -X PUT localhost:9200/ind-1 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}'
@@ -148,3 +148,33 @@ curl -X PUT localhost:9200/ind-3 -H 'Content-Type: application/json' -d'{ "setti
 Удалил индексы:  
 ![prt5](https://user-images.githubusercontent.com/97126500/187306165-c4b5055f-726e-4fef-9213-b03ec6c7dbf1.png)
 
+## Задача 3
+
++ Саму директорию создал в задаче 1.
++ Зарегистрировал директорию со snapshot
+![prt7](https://user-images.githubusercontent.com/97126500/187308114-567613df-a96f-4ef2-b879-7aa53565f9e2.png)
++ Проверил в kibana:  
+![prt6](https://user-images.githubusercontent.com/97126500/187308162-6b0588fe-c522-488e-92b6-a0f40c17edcc.png)
++ Создал индекс test:  
+![prt8](https://user-images.githubusercontent.com/97126500/187308662-85ad2a43-d143-48bc-91e4-8846dc9a5ec9.png)
++ Создал snapshot `new_snapshot`:
+![prt9](https://user-images.githubusercontent.com/97126500/187309384-9d2d77ce-ee82-4c4a-a43a-61aff018e38b.png)
++ Список файлов в папке snapshots:  
+![prt10](https://user-images.githubusercontent.com/97126500/187309809-755f8eec-849c-48b3-8cdf-66d507bca501.png)
++ Удалил индекс test и создал test2
+![prt11](https://user-images.githubusercontent.com/97126500/187310927-e8cbc371-9df8-4df9-a390-a48f70d6354d.png)
++ Чтобы восстановиться из snapshot, пришлось удалить все индексы вместе с системными и потом восстановиться из snapshot:  
+```
+
+DELETE _data_stream/*?expand_wildcards=all
+
+DELETE *?expand_wildcards=all
+
+POST _snapshot/netology_backup/new_snapshot/_restore
+{
+  "indices": "*",
+  "include_global_state": true
+}
+```
+![prt12](https://user-images.githubusercontent.com/97126500/187316020-b9505d03-06d2-4580-89cc-a0230486e2bb.png)
+В итоге индекс test восстановился, test2 исчез, что и требовалось.
