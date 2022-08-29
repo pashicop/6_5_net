@@ -140,5 +140,7 @@ curl -X PUT localhost:9200/ind-3 -H 'Content-Type: application/json' -d'{ "setti
 ![prt2](https://user-images.githubusercontent.com/97126500/187305011-d3592d77-2b6c-47c0-b5ea-c404d629815a.png)
 ![prt3](https://user-images.githubusercontent.com/97126500/187305364-cae46def-4b65-45a8-947f-9f2a53143eac.png)
 
+Состояние кластера:  
+![prt4](https://user-images.githubusercontent.com/97126500/187305686-c68974cb-c8f3-4d7a-b7e0-4d655509123c.png)
 
 
